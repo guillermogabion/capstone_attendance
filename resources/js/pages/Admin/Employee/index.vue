@@ -82,10 +82,11 @@
      dialog: false,
      dialogDelete: false,
      headers: [
+
+       { text: 'LRN', align: 'start', sortable: false, value: 'student_id',},
        { text: 'Fullname', align: 'start', sortable: false, value: 'fullname',},
        { text: 'Address', value: 'address' },
        { text: 'Contact', value: 'contact' },
-       { text: 'Designation', value: 'designation' },
        { text: 'Actions', value: 'actions', sortable: false },
      ],
      loading: false,

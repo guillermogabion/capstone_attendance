@@ -22,16 +22,15 @@ import Attendance from '../pages/Attendance.vue'
 import AllItems from '../pages/Items/index.vue'
 
 
+// landing 
+
+import Landing from '../pages/Landing/index.vue'
+
 export default [{
-    path: '/',
+    path: '/dashboard',
     component: Main,
     meta: { authOnly: true },
     children: [
-        {
-            path: '/',
-            component: Dashboard,
-            meta: { authOnly: true },
-        },
         {
             path: '/dashboard',
             name: 'dashboard',
@@ -131,6 +130,12 @@ export default [{
     path: '/login',
     name: 'login',
     component: Login,
+    meta: { authOnly: false },
+},
+{
+    path: '/',
+    name: 'landing',
+    component: Landing,
     meta: { authOnly: false },
 },
 {

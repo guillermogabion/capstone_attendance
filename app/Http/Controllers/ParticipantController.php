@@ -16,16 +16,30 @@ class ParticipantController extends Controller
         // return 'Hi';
     }
 
-    public function store(Request $request)
+    public function new_record(Request $request)
     {
-        $data = new Participant();
-        $requestData = $request->all();
-        $register = $data->create($requestData);
+        // $data = new Participant();
+        // $requestData = $request->all();
+        // $register = $data->create($requestData);
 
-        return response()->json([
-            'message' => 'New Participant Added',
-            'info' => $register
-        ], 201);
+        // return response()->json([
+        //     'message' => 'New Participant Added',
+        //     'info' => $register
+        // ], 201);
+
+        $data = Participant::where('student_id', $request->student_id)->exists();
+        if ($data) {
+            return response()->json([
+                'message' => "User has existing saved data"
+            ]);
+        } else {
+            $input = $request->all();
+            $students = Participant::create($input);
+            return response()->json([
+                'message' => "User Successfully added",
+                'data' => $students
+            ]);
+        }
     }
 
     public function update(Request $request, $id)

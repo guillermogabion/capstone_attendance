@@ -19,7 +19,7 @@
               <v-toolbar
                   flat
               >
-                  <v-toolbar-title>Items</v-toolbar-title>
+                  <v-toolbar-title>Events</v-toolbar-title>
                   <v-divider
                   class="mx-4"
                   inset
@@ -82,12 +82,10 @@ export default {
    dialog: false,
    dialogDelete: false,
    headers: [
-     { text: 'Item Name', align: 'start', sortable: false, value: 'name',},
+     { text: 'Event title', align: 'start', sortable: false, value: 'event_title',},
      { text: 'Description', value: 'description' },
-     { text: 'Brand', value: 'brand' },
-     { text: 'Price', value: 'price' },
-     { text: 'Stock', value: 'stock' },
-     { text: 'Sold', value: 'sold' },
+     { text: 'Start', value: 'start' },
+     { text: 'End', value: 'end' },
      { text: 'Actions', value: 'actions', sortable: false },
    ],
    loading: false,

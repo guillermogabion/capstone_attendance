@@ -46,9 +46,9 @@ export default {
     data() {
         return {
             menus : [
-                {title : 'Items', icon: "mdi-bullseye-arrow", route: '/setting/item'  },
-                {title : 'Delivery',  icon: "mdi-bullseye-arrow", route: '/setting/delivery' },
-                {title : 'Category',  icon: "mdi-bullseye-arrow", route: '/setting/category' },
+                {title : 'Manage Events', icon: "mdi-bullseye-arrow", route: '/setting/item'  },
+                // {title : 'Delivery',  icon: "mdi-bullseye-arrow", route: '/setting/delivery' },
+                // {title : 'Category',  icon: "mdi-bullseye-arrow", route: '/setting/category' },
              
             ]
         }

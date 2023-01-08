@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,5 +24,9 @@ use Illuminate\Support\Facades\Route;
 // })->where('any', '.*');
 
 Route::view('/{any}', 'welcome')->where('any', '.*');
+
+
+
+
 
 // Route::post('login', 'UserController@login');

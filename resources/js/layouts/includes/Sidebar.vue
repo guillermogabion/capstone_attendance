@@ -51,10 +51,10 @@ export default {
         logocard,
         items : [
             {title : 'Dashboard', icon: 'mdi-view-dashboard', route: '/'},
-            {title : 'Items', icon: 'mdi-view-dashboard', route: '/allitems'},
-            {title : 'Participants', icon: 'mdi mdi-account-group', route: '/attendee'},
+            // {title : 'Items', icon: 'mdi-view-dashboard', route: '/allitems'},
+            {title : 'Attendee', icon: 'mdi mdi-account-group', route: '/attendee'},
             {title : 'Events', icon: 'mdi mdi-account-group', route: '/event'},
-            {title : 'Settings', icon: 'mdi-view-dashboard', route: '/setting'},
+            // {title : 'Settings', icon: 'mdi-view-dashboard', route: '/setting'},
         //     {
         //         icon: 'mdi mdi-notebook-multiple',
         //         'icon-alt': 'mdi mdi-notebook-multiple',
