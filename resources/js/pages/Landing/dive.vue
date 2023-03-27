@@ -20,7 +20,7 @@
                         lazy-validation
                     >
                         <v-text-field
-                            label="LRN"
+                            label="ID number"
                             outlined
                             v-model="payload.student_id"
                             :rules="idRules"
@@ -116,7 +116,7 @@
 </template>
 <script>
 import html2canvas from 'html2canvas';
-import logo from '../../assets/logonew.png'
+import logo from '../../assets/logg.png'
 import { SaveStudent } from "../../repositories/student.api"
 export default {
     data() {
@@ -148,7 +148,7 @@ export default {
                 v => !!v || 'Address is required',
             ],
             idRules: [
-                v => !!v || 'LRN is required',
+                v => !!v || 'id is required',
             ],
               
         }

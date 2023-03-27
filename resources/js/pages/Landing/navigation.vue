@@ -76,7 +76,7 @@
 </template>
 
 <script>
-    import logo from '../../assets/logonew.png'
+    import logo from '../../assets/logg.png'
     export default {
     data: () => ({
         drawer: null,

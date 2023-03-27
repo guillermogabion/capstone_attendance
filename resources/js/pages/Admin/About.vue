@@ -1,5 +1,5 @@
 <template>
     <div>
-        I am About
+        <!-- I am About -->
     </div>
 </template>

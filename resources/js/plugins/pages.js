@@ -142,7 +142,7 @@ export default [{
     path: '/attendance',
     name: 'attendance',
     component: Attendance,
-    meta: {authOnly: true}
+    meta: {authOnly: false}
 }
 ]
 

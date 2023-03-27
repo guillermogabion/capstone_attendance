@@ -15,7 +15,7 @@ class CreateAttendancesTable extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->integer('participant_id')->unsigned();
+            $table->integer('student_id')->unsigned();
             $table->integer('event_id')->unsigned();
             $table->integer('signed_id')->unsigned();
             $table->timestamps();

@@ -46,7 +46,7 @@
     </div>
   </template>
   <script>
-  import logo from '../../assets/logocard.png'
+  import logo from '../../assets/logg.png'
   export default {
     data(){
       return {

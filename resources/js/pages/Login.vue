@@ -91,8 +91,8 @@
 </template>
 
 <script>
-import logo from '../assets/logo.jpg'
-import logocard from '../assets/logocard.png'
+import logo from '../assets/logg.png'
+import logocard from '../assets/logg.png'
 import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
 import { login } from "../repositories/user.api";
 export default {

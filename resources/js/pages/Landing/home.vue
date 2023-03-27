@@ -12,7 +12,7 @@
                 <v-col>
                     <v-col>
                         <div>
-                            <span class="wpr top"><span class="big-title">San Isidro National HighSchool</span></span>
+                            <span class="wpr top"><span class="big-title">Tan Ting Bing Memorial Colleges Foundation Inc.</span></span>
                             <span class="wpr"><span class="small-title">Event Attendance Management System</span></span>
                             <!-- <v-btn
                                 rounded
@@ -46,7 +46,7 @@
     </section>
 </template>
 <script>
-import home from '../../assets/student.jpg'
+import home from '../../assets/My project-1.jpg'
 import logo from '../../assets/logonew.png'
 export default {
     data() {
