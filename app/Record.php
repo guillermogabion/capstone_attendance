@@ -10,7 +10,8 @@ class Record extends Model
     protected $fillable = [
         'user_id',
         'participant_id',
-        'event_id'
+        'event_id',
+        'student_id'
     ];
     protected $casts = [
         'email_verified_at' => 'datetime',

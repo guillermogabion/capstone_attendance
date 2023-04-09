@@ -36,7 +36,7 @@
                             ></v-text-field>
                            <h3 class="bold"> Please Scan Your QR Code</h3>                            
                            <v-text-field
-                                v-model="code"
+                                v-model="payload.code"
                                 filled
                                 rounded
                                 dense
@@ -101,6 +101,7 @@
     <script>
     import logo from '../assets/logg.png'
     import logocard from '../assets/logg.png'
+    import axios from '../plugins/axios'
     // import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
     // import { login } from "../repositories/user.api";
     export default {
@@ -113,7 +114,9 @@
             // },
             logo, 
             logocard,
-            code: '',
+            payload : {
+                code: '',
+            }
             // password: '',
         }
        },
@@ -139,6 +142,19 @@
             // routeAttend(){
             //     this.$router.push('/attendance');
             // }
+            saveScan(){
+                axios.post('record', this.payload).then((response) => {
+                    window.alert("New Data Added")
+                })
+            }
+       },
+       watch : {
+        "payload.code": {
+        handler() {
+          this.saveScan()
+        },
+        deep: true,
+      },
        }
     }
     </script>

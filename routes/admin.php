@@ -31,7 +31,6 @@ Route::group(['prefix' => '/v1', 'middleware' => ['auth:admin-api']], function (
     Route::delete('event/{id}', [EventController::class, 'destroy']);
     Route::get('events/pagination', [EventController::class, 'pagination']);
 
-    Route::post('record', [RecordController::class, 'store']);
     Route::post('record-destroy/{id}', [RecordController::class, 'destroy']);
     Route::post('record/pagination', [RecordController::class, 'destroy']);
 
@@ -44,4 +43,5 @@ Route::group(['prefix' => '/v1', 'middleware' => ['auth:admin-api']], function (
     Route::post('items-search', [ItemController::class, 'search']);
 
     Route::get('get', [RecordController::class, 'get']);
+    Route::post('record', [RecordController::class, 'store']);
 });

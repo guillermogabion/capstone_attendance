@@ -12,14 +12,15 @@ class RecordController extends Controller
     public function store(Request $request)
     {
         $data = new Record();
-        $request['user_id'] = Auth::user()->id;
-        $requestData = $request->all();
-        $data->create($requestData);
+        $data->student_id = $request->code;
+        $data->save();
+        // $requestData = $request->all();
+        // $data->create($requestData);
 
-        return response()->json([
-            'message' => 'Recorded',
-            'data' => $data
-        ], 201);
+        // return response()->json([
+        //     'message' => 'Recorded',
+        //     'data' => $data
+        // ], 201);
     }
 
     public function destroy($id)
