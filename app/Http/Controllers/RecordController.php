@@ -12,7 +12,8 @@ class RecordController extends Controller
     public function store(Request $request)
     {
         $data = new Record();
-        $data->student_id = $request->code;
+        $data->event_name = $request->event_name;
+        $data->student_record_id = $request->code;
         $data->save();
         // $requestData = $request->all();
         // $data->create($requestData);
@@ -45,10 +46,15 @@ class RecordController extends Controller
 
     public function get()
     {
-        // return Record::participated()->get();
+       $data = Record::with(['student' => function ($query) {
+        $query->select('student_id', 'first_name', 'last_name');
+    }])
+    ->select('event_name', 'created_at', 'student_record_id')
+    ->get();
+return $data;
 
-        $data = Record::query();
-        $xx = $data->with('participated', 'event')->get();
-        return $xx;
     }
+
+
+    
 }

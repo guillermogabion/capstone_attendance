@@ -45,15 +45,15 @@
    </v-navigation-drawer>
 </template>
 <script>
-import logocard from '../../assets/logocard.png'
+import logocard from '../../assets/logg.png'
 export default {
     data : () => ({
         logocard,
         items : [
-            {title : 'Dashboard', icon: 'mdi-view-dashboard', route: '/'},
+            // {title : 'Dashboard', icon: 'mdi-view-dashboard', route: '/'},
             // {title : 'Items', icon: 'mdi-view-dashboard', route: '/allitems'},
             {title : 'Attendee', icon: 'mdi mdi-account-group', route: '/attendee'},
-            {title : 'Events', icon: 'mdi mdi-account-group', route: '/event'},
+            // {title : 'Events', icon: 'mdi mdi-account-group', route: '/event'},
             // {title : 'Settings', icon: 'mdi-view-dashboard', route: '/setting'},
         //     {
         //         icon: 'mdi mdi-notebook-multiple',

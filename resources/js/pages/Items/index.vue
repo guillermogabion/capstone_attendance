@@ -83,7 +83,8 @@ import axios from '../../plugins/axios';
                 items: [],
                 form : {
                     search: '',
-                }
+                },
+                loading : false
             }
         },
         mounted (){
@@ -97,7 +98,7 @@ import axios from '../../plugins/axios';
                 this.timer = null;
                 }
                 this.timer = setTimeout(() => {
-                axios.post('items-search', {searchkey:key}).then((response) => {
+                axios.post('get').then((response) => {
                     this.items = response.data 
                     this.loading = false
                 }).catch((errors) => {

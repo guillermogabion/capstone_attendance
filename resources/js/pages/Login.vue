@@ -126,7 +126,7 @@ export default {
           })
         },
         routeEnter(){
-            this.$router.push('/dashboard');
+            this.$router.push('/attendee');
         },
         routeAttend(){
             this.$router.push('/attendance');

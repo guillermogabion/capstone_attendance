@@ -10,12 +10,12 @@ class Record extends Model
     protected $fillable = [
         'user_id',
         'participant_id',
-        'event_id',
+        'event_name',
         'student_id'
     ];
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'created_at'  => 'date:m-d-Y',
+        'created_at'  => 'date:M d, Y',
         'updated_at' => 'datetime:Y-m-d',
         'upda' => 'datetime:Y-m-d'
     ];
@@ -28,5 +28,10 @@ class Record extends Model
     public function event()
     {
         return $this->belongsTo(Event::class, 'event_id');
+    }
+
+    public function student()
+    {
+        return $this->belongsTo(Participant::class, 'student_record_id', 'student_id');
     }
 }

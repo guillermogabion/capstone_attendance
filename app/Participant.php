@@ -31,4 +31,9 @@ class Participant extends Model
     {
         return $this->belongsToMany(Record::class);
     }
+
+    public function records()
+    {
+        return $this->hasMany(Record::class, 'student_id');
+    }
 }

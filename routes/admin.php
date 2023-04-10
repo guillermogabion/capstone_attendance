@@ -43,5 +43,9 @@ Route::group(['prefix' => '/v1', 'middleware' => ['auth:admin-api']], function (
     Route::post('items-search', [ItemController::class, 'search']);
 
     Route::get('get', [RecordController::class, 'get']);
+});
+
+
+Route::group(['prefix' => '/v1'], function () { 
     Route::post('record', [RecordController::class, 'store']);
 });

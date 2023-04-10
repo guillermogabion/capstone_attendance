@@ -5,15 +5,11 @@
         
             <v-data-table
                 :headers="headers"
-                :items="participants"
+                :items="attendance"
                 class="elevation-1"
-                :items-per-page="itemsPerPage"
-                :loading="loading"
-                :page.sync="page"
-                @page-count="pageCount = $event"
-                :server-items-length="total_participants"
-                @pagination="fetchParticipantsData"
                 hide-default-footer
+                :search="search"
+                ref="table"
             >
                 <template v-slot:top>
                 <v-toolbar
@@ -33,64 +29,42 @@
                         dense
                         class="pt-8"
                         append-icon="mdi-magnify"
-                        :items="participants"
                         v-model="search"
                     ></v-text-field>
-                    <div
-                    class="pt-1"
-                    >
-                        <v-btn
-                        color="green"
-                        dark
-                        class="ma-4"
-                        fab
-                        @click="add()"
-                        >
-                          <v-icon 
-                          pa-8
-                          ma-2
-                          size="30"
-                        
-                          dark>
-                              mdi-plus
-                            </v-icon>
-                          </v-btn>
-                              
-                        </div>
+                   
                 </v-toolbar>
                 </template>
                 
             </v-data-table>
-            <div class="text-center pt-2">
-              <v-pagination
-              v-model="page"
-              :total-visible="7"
-              :length="pageCount"
-              
-            ></v-pagination>
-            </div>
-
+           <!-- <v-btn @click="printToExcel"> Click</v-btn> -->
 
         </v-card>
+        <v-spacer></v-spacer>
+           <v-btn color="primary" @click="exportPDF"> Export To PDF</v-btn>
+
     </div>
  </template>
  <script>
-// import Axios from 'axios';
+ import Axios from '../../../plugins/axios';
  import { ParticipantPagination } from '../../../repositories/participant.api';
+ import * as XLSX from 'xlsx';
+ import * as FileSaver from 'file-saver'
+ import html2pdf from 'html2pdf.js';
+  import jsPDF from 'jspdf';
  export default {
    data: () => ({
      dialog: false,
      dialogDelete: false,
      headers: [
 
-       { text: 'LRN', align: 'start', sortable: false, value: 'student_id',},
-       { text: 'Fullname', align: 'start', sortable: false, value: 'fullname',},
-       { text: 'Address', value: 'address' },
-       { text: 'Contact', value: 'contact' },
-       { text: 'Actions', value: 'actions', sortable: false },
+       { text: 'Student ID', align: 'start', sortable: false, value: 'student_record_id',},
+       { text: 'Student Name', align: 'start', sortable: false, value: 'student.fullname',},
+       { text: 'Event Name', align: 'start', sortable: false, value: 'event_name'},
+       { text: 'Date', align: 'start', sortable: false, value: 'created_at'},
+    
      ],
      loading: false,
-     participants: [],
+     attendance: [],
       search : '',
       pageCount: 0,
       itemsPerPage:null,
@@ -100,18 +74,7 @@
    }),
   
    watch: {
-     dialog (val) {
-       val || this.close()
-     },
-     dialogDelete (val) {
-       val || this.closeDelete()
-     },
-     "search": {
-        handler(val) {
-          this.indexParticipants(val)
-        },
-        deep: true,
-      },
+    
 
    },
    mounted(){
@@ -121,42 +84,76 @@
 
    methods: {
     initialize(){
-      // Axios.get('get').then((response) => {
-      //   console.log(response.data)
-      //   this.participants = response.data
-      // })
+       Axios.get('get').then((response) => {
+         console.log(response.data)
+         this.attendance = response.data
+       })
 
-    },
-    set_data_fromServer(data) {
-      this.participants = data.data
-      this.total_participants = data.total
-      this.itemsPerPage = data.per_page
-      this.pageCount = data.last_page
-    },
-    fetchParticipantsData(page){
-        this.current_page = page.page
-        this.indexParticipants()
-    },
-    indexParticipants() {
-      this.url = 'participants/pagination?page='+this.current_page+ '&keyword=' +this.search
-      this.loading = true
-      if (this.timer) {
-        clearTimeout(this.timer);
-        this.timer = null;
-      }
-      this.timer = setTimeout(() => { 
-        ParticipantPagination(this.url).then(({data}) => {
-          console.log(this.url,"index")
-          this.set_data_fromServer(data)
-          this.loading = false
-        })
-      }, 800);
     },
     add(){
       this.$router.push('/attendee/add')
-    }
+    },
+printToExcel() {
+  const itemsWithRelatedData = this.attendance.map(item => {
+    const newItem = { ...item };
+    newItem.fullname = item.student.fullname; // add student letter to item object
+    return newItem;
+  });
+  
+  const worksheet = XLSX.utils.json_to_sheet(itemsWithRelatedData);
+  const fullnameColumn = worksheet['E']; // get letter column
+  delete worksheet['E']; // delete the original column E
+  worksheet['E'] = fullnameColumn; // move letter column to column E
+  delete worksheet['A']; // delete the original fullname column
+
+  
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+  const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+  FileSaver.saveAs(blob, 'data.xlsx');
+},
+
+exportPDF() {
+    const table = this.$refs.table.$el;
+    const pdfStyles = document.createElement('link');
+    pdfStyles.setAttribute('rel', 'stylesheet');
+    pdfStyles.setAttribute('type', 'text/css');
+    pdfStyles.setAttribute('href', '/pdf-styles.css');
+    document.head.appendChild(pdfStyles); // add the PDF styles to the document head
+    html2pdf().set({
+      margin: 1,
+      filename: 'table.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { dpi: 192, letterRendering: true },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css'] },
+    }).from(table).save();
+  }
+}
+
+
+
+
+
    
   
-   },
  }
 </script>
+
+<style scoped>
+body {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+
+/* Add a border to the table cells */
+table td, table th {
+  border: 1px solid black;
+}
+
+/* Set the background color for the table headers */
+table th {
+  background-color: lightgray;
+}
+</style>

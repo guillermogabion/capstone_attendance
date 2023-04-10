@@ -29,7 +29,7 @@
 
                            <h3 class="bold"> Event Name</h3>                            
                            <v-text-field
-                                v-model="event"
+                                v-model="payload.event_name"
                                 filled
                                 rounded
                                 dense
@@ -78,6 +78,23 @@
                         </v-col>
                         </v-card>
                         </v-card>
+                        <v-snackbar
+                            v-model="snackbar"
+                            :timeout="timeout"
+                            >
+                            {{ text }}
+
+                            <template v-slot:action="{ attrs }">
+                                <v-btn
+                                color="blue"
+                                text
+                                v-bind="attrs"
+                                @click="snackbar = false"
+                                >
+                                Close
+                                </v-btn>
+                            </template>
+                        </v-snackbar>
                     </div>
          
         </v-sheet>
@@ -102,52 +119,41 @@
     import logo from '../assets/logg.png'
     import logocard from '../assets/logg.png'
     import axios from '../plugins/axios'
-    // import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
-    // import { login } from "../repositories/user.api";
     export default {
        data() {
         return {
-            // isPasswordVisible: false,
-            // icons: {
-            //     mdiEyeOutline,
-            //     mdiEyeOffOutline,
-            // },
+          
             logo, 
             logocard,
             payload : {
                 code: '',
-            }
-            // password: '',
+                event_name: ''
+            },
+            loading : false,
+            snackbar: false,
+            text: 'New Data Added',
+            timeout: 2000,
         }
        },
        methods : {
-            // Login() {
-            //   const login_data = {
-            //       email: this.email,
-            //       password: this.password
-            //   }
-            //   login(login_data).then(({data}) => {
-            //     //   this.$store.commit('login', data)
-            //       localStorage.setItem('token', data.access_token)
-            //       this.routeEnter();
-            //   }).catch((errors)=> {
-            //       console.log(errors)
-            //     //   this.snackbar = true
-                  
-            //   })
-            // },
-            // routeEnter(){
-            //     this.$router.push('/dashboard');
-            // },
-            // routeAttend(){
-            //     this.$router.push('/attendance');
-            // }
             saveScan(){
-                axios.post('record', this.payload).then((response) => {
-                    window.alert("New Data Added")
-                })
+                this.loadding = true
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                    this.timer = null
+                }
+                this.timer = setTimeout(() => {
+                    axios.post('record', this.payload).then((response) => {
+                        this.payload.code = ""
+                        this.loading = false
+                        this.snackbar = true
+                    }).catch((errors) => {
+                        console.log(errors)
+                    });
+                }, 800)
+               
             }
-       },
+       },   
        watch : {
         "payload.code": {
         handler() {
