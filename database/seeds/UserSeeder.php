@@ -18,10 +18,10 @@ class UserSeeder extends Seeder
             "last_name" => "admin",
             "birthdate" => "null",
             "address" => "null",
-            "landmark" => "null",
             "contact" => "null",
             "user_type" => 1,
-            "email" => "test@email.com",
+            "approve" => 1,
+            "email" => "ADMIN",
             "password" => "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi"
         ]);
     }

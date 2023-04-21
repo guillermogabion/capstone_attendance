@@ -11,6 +11,7 @@ use App\Http\Controllers\ItemController;
 
 Route::group(['prefix' => '/v1'], function () {
     Route::post('login', [UserController::class, 'login'])->name('login');
+    Route::post('add-staff',  [UserController::class, 'addStaff']);
 });
 Route::group(['prefix' => '/v1', 'middleware' => ['auth:admin-api']], function () {
 
@@ -43,6 +44,12 @@ Route::group(['prefix' => '/v1', 'middleware' => ['auth:admin-api']], function (
     Route::post('items-search', [ItemController::class, 'search']);
 
     Route::get('get', [RecordController::class, 'get']);
+
+    Route::get('get-all-staff', 'UserController@getAll');
+    Route::put('approve-staff/{id}', 'UserController@approveStaff');
+    Route::post('edit-staff/{id}', 'UserController@editStaff');
+    Route::post('add-staff-admin',  [UserController::class, 'addStaff']);
+
 });
 
 

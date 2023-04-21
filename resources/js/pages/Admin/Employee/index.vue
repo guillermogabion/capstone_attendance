@@ -1,5 +1,6 @@
  <template>
-    <div>
+ <div>
+    <div v-if="$is_admin">
         <v-card
         >
         
@@ -29,7 +30,7 @@
                         dense
                         class="pt-8"
                         append-icon="mdi-magnify"
-                        v-model="search"
+                          v-model="search"
                     ></v-text-field>
                    
                 </v-toolbar>
@@ -42,6 +43,10 @@
         <v-spacer></v-spacer>
            <v-btn color="primary" @click="exportPDF"> Export To PDF</v-btn>
 
+    </div>
+    <div v-else @click="gotoAttendance()" ref="attendLink">
+
+    </div>
     </div>
  </template>
  <script>
@@ -79,6 +84,11 @@
    },
    mounted(){
     this.initialize()
+     if (this.userType !== 1) {
+      this.$nextTick(() => {
+       this.$router.push('/attendance');
+      })
+    }
    }, 
  
 
@@ -129,7 +139,13 @@ exportPDF() {
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
       pagebreak: { mode: ['avoid-all', 'css'] },
     }).from(table).save();
-  }
+  },
+
+   goToAttendance() {
+      this.$router.push('/attendance')
+    }
+
+    
 }
 
 

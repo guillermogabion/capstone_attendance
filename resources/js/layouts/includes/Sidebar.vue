@@ -50,20 +50,10 @@ export default {
     data : () => ({
         logocard,
         items : [
-            // {title : 'Dashboard', icon: 'mdi-view-dashboard', route: '/'},
-            // {title : 'Items', icon: 'mdi-view-dashboard', route: '/allitems'},
             {title : 'Attendee', icon: 'mdi mdi-account-group', route: '/attendee'},
-            // {title : 'Events', icon: 'mdi mdi-account-group', route: '/event'},
-            // {title : 'Settings', icon: 'mdi-view-dashboard', route: '/setting'},
-        //     {
-        //         icon: 'mdi mdi-notebook-multiple',
-        //         'icon-alt': 'mdi mdi-notebook-multiple',
-        //         title: 'Librarian',
-        //         model: false,
-        //         children: [
-        //             { icon: 'mdi mdi-book-open-variant', title: 'Book Record', route: '/library' },
-        //         ],
-        // },
+            {title : 'Staff', icon: 'mdi mdi-account-group', route: '/staff'},
+            {title : 'Attendance', icon: 'mdi mdi-account-group', route: '/attendance'},
+         
         ]
     }),
 
@@ -104,7 +94,7 @@ export default {
         },
 
         itemChecker(item){
-            let user_accepts = ['Dashboard', 'Participants']
+            let user_accepts = ['Attendance']
             let other_accepts = ['Events', "Settings"]
 
             if(this.$is_admin()){

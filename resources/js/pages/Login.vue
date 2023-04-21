@@ -61,6 +61,7 @@
                                 rounded
                                 color="primary"
                                 class= "mb-2 px-3"
+                                @click="dialog = true"
                             >
                                 Register
                             </v-btn>
@@ -68,6 +69,61 @@
                         </v-card-actions>
                     </v-col>
                     </v-card>
+
+                    <v-dialog
+                    v-model="dialog"
+                    max-width="400px"
+                    >
+                        <v-card>
+                            <v-card-title>
+                                Fill all fields
+                            </v-card-title>
+                            <div class="px-2">
+                                <v-form
+                                 ref="form"
+                                 v-model="valid"
+                                 lazy-validation
+                                >
+                                    <v-text-field
+                                        label="First Name"
+                                        outlined
+                                        v-model="payload.first_name"
+                                        :rules="idRules"
+                                    ></v-text-field>
+                                    <v-text-field
+                                        label="Last name"
+                                        outlined
+                                        v-model="payload.last_name"
+                                        :rules="idRules"
+                                    ></v-text-field>
+                                    <v-text-field
+                                        label="Username"
+                                        outlined
+                                        v-model="payload.username"
+                                        :rules="idRules"
+                                    ></v-text-field>
+                                    <v-text-field
+                                        label="Password"
+                                        outlined
+                                        v-model="payload.password"
+                                        :rules="idRules"
+                                    ></v-text-field>
+                                      <div class="text-center">
+                                            <v-btn
+                                                :disabled="!valid"
+                                                rounded
+                                                color="primary"
+                                                dark
+                                                class="mb-2"
+                                                @click="submit()"
+                                            >
+                                               Submit
+                                            </v-btn>
+                                      </div>
+                                </v-form>
+                            </div>
+                        </v-card>
+                    </v-dialog>
                     </v-card>
                 </div>
      
@@ -95,9 +151,11 @@ import logo from '../assets/logg.png'
 import logocard from '../assets/logg.png'
 import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
 import { login } from "../repositories/user.api";
+import axios from '../plugins/axios'
 export default {
    data() {
     return {
+        valid : true,
         isPasswordVisible: false,
         icons: {
             mdiEyeOutline,
@@ -107,6 +165,16 @@ export default {
         logocard,
         email: '',
         password: '',
+        dialog: false,
+         idRules: [
+                v => !!v || 'This field is required',
+            ],
+        payload : {
+            first_name : '',
+            last_name : '',
+            username : '',
+            password : ''
+        }
     }
    },
    methods : {
@@ -118,9 +186,20 @@ export default {
           login(login_data).then(({data}) => {
             //   this.$store.commit('login', data)
               localStorage.setItem('token', data.access_token)
-              this.routeEnter();
+              console.log(data.user.user_type, "IAM")
+            //   this.routeEnter();
+
+             
+                // Call the appropriate function based on user type
+                if (data.user.user_type, 1) {
+                    this.routeEnter();
+                } 
+                if (data.user.user_type, 0) {
+                    this.routeAttend();
+                } 
           }).catch((errors)=> {
               console.log(errors)
+              window.alert("Invalid Credentials")
             //   this.snackbar = true
               
           })
@@ -130,6 +209,17 @@ export default {
         },
         routeAttend(){
             this.$router.push('/attendance');
+        },
+        async submit () {
+            const isValid = await this.$refs.form.validate();
+            if (isValid){
+                axios.post('add-staff', this.payload).then(res => {
+                    console.log(res)
+                    window.alert("New Staff added. Contact the administrator for approval")
+                    this.payload = ''
+                    this.dialog = false
+                })
+            }
         }
    }
 }
