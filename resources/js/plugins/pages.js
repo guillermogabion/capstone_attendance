@@ -55,7 +55,7 @@ export default [{
         },
         // employee 
         {
-            path: '/attendee',
+            path: '/attendance',
             name: 'attendee',
             component: Employee,
             meta: { authOnly: true },
@@ -72,12 +72,12 @@ export default [{
                
             ]
         },
-        {
-            path: '/attendance',
-            name: 'attendance',
-            component: Attendance,
-            meta: {authOnly: false}
-        },
+        // {
+        //     path: '/attendance',
+        //     name: 'attendance',
+        //     component: Attendance,
+        //     meta: {authOnly: false}
+        // },
         {
             path: '/attendee/add',
             name: 'attendee-add',

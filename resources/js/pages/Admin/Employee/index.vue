@@ -1,6 +1,6 @@
  <template>
  <div>
-    <div v-if="$is_admin">
+    <div v-if="this.$is_admin()">
         <v-card
         >
         
@@ -44,8 +44,106 @@
            <v-btn color="primary" @click="exportPDF"> Export To PDF</v-btn>
 
     </div>
-    <div v-else @click="gotoAttendance()" ref="attendLink">
+    <div v-else>
+       <div>
+        <v-sheet
+        style="max-height: 101.2vh;"
+        fluid
+        >
+        <div class="text-center login">
+                        <v-card
+                        width="500"
+                        class="mx-auto"
+                        elevation="3"
+                        color="white"
+                        >
+                        <v-card>
+                            <div
+                             style="padding-top: 4%"
+                            >
+                            <v-img 
+                            contain
+                            :src="logocard"
+                            max-height="30%"
+                            width="50%"
+                            class="mx-auto"
+                            />
+                        </div>
+    
+                        <v-col>
 
+                           <h3 class="bold"> Event Name</h3>                            
+                           <v-text-field
+                                v-model="payload.event_name"
+                                filled
+                                rounded
+                                dense
+                            ></v-text-field>
+                           <h3 class="bold"> Please Scan Your QR Code</h3>                            
+                           <v-text-field
+                                v-model="payload.code"
+                                filled
+                                rounded
+                                dense
+                                label="Code"
+                            ></v-text-field>
+                    
+                            <!-- <v-text-field
+                                v-model="password"
+                                filled
+                                rounded
+                                dense
+                                :type="isPasswordVisible ? 'text' : 'password'"
+                                label="Password"
+                                placeholder="············"
+                                :append-icon="isPasswordVisible ? icons.mdiEyeOffOutline : icons.mdiEyeOutline"
+                                @click:append="isPasswordVisible = !isPasswordVisible"
+                            
+                            ></v-text-field> -->
+                            
+                            <v-card-actions>
+                            <!-- <v-spacer></v-spacer>
+                                <v-btn
+                                    rounded
+                                    color="success"
+                                    class= "mb-2 px-7"
+                                    @click="Login()"
+                                >
+                                    Login
+                                </v-btn>
+                                <v-btn
+                                    rounded
+                                    color="primary"
+                                    class= "mb-2 px-3"
+                                >
+                                    Register
+                                </v-btn> -->
+                            <v-spacer></v-spacer>
+                            </v-card-actions>
+                        </v-col>
+                        </v-card>
+                        </v-card>
+                        <v-snackbar
+                            v-model="snackbar"
+                            :timeout="timeout"
+                            >
+                            {{ text }}
+
+                            <template v-slot:action="{ attrs }">
+                                <v-btn
+                                color="blue"
+                                text
+                                v-bind="attrs"
+                                @click="snackbar = false"
+                                >
+                                Close
+                                </v-btn>
+                            </template>
+                        </v-snackbar>
+                    </div>
+         
+        </v-sheet>
+    </div>
     </div>
     </div>
  </template>
@@ -56,6 +154,8 @@
  import * as FileSaver from 'file-saver'
  import html2pdf from 'html2pdf.js';
   import jsPDF from 'jspdf';
+   import logo from '../../../assets/logg.png'
+    import logocard from '../../../assets/logg.png'
  export default {
    data: () => ({
      dialog: false,
@@ -76,6 +176,16 @@
       total_participants:0,
       page:1,
       current_page:0,
+       logo, 
+            logocard,
+            payload : {
+                code: '',
+                event_name: ''
+            },
+            loading : false,
+            snackbar: false,
+            text: 'New Data Added',
+            timeout: 2000,
    }),
   
    watch: {
@@ -84,11 +194,7 @@
    },
    mounted(){
     this.initialize()
-     if (this.userType !== 1) {
-      this.$nextTick(() => {
-       this.$router.push('/attendance');
-      })
-    }
+   
    }, 
  
 
@@ -143,10 +249,36 @@ exportPDF() {
 
    goToAttendance() {
       this.$router.push('/attendance')
-    }
+    },
+
+      saveScan(){
+                this.loadding = true
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                    this.timer = null
+                }
+                this.timer = setTimeout(() => {
+                    Axios.post('record', this.payload).then((response) => {
+                        this.payload.code = ""
+                        this.loading = false
+                        this.snackbar = true
+                    }).catch((errors) => {
+                        console.log(errors)
+                    });
+                }, 800)
+               
+            }
 
     
-}
+},
+ watch : {
+        "payload.code": {
+        handler() {
+          this.saveScan()
+        },
+        deep: true,
+      },
+       }
 
 
 

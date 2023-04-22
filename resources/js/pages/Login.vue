@@ -31,7 +31,7 @@
                             filled
                             rounded
                             dense
-                            label="Email"
+                            label="Username"
                         ></v-text-field>
                 
                         <v-text-field
@@ -187,16 +187,16 @@ export default {
             //   this.$store.commit('login', data)
               localStorage.setItem('token', data.access_token)
               console.log(data.user.user_type, "IAM")
-            //   this.routeEnter();
+              this.routeEnter();
 
              
                 // Call the appropriate function based on user type
-                if (data.user.user_type, 1) {
-                    this.routeEnter();
-                } 
-                if (data.user.user_type, 0) {
-                    this.routeAttend();
-                } 
+                // if (data.user.user_type == 1) {
+                //     this.routeEnter();
+                // } 
+                // if (data.user.user_type == 0) {
+                //     this.routeAttend();
+                // } 
           }).catch((errors)=> {
               console.log(errors)
               window.alert("Invalid Credentials")
@@ -205,7 +205,7 @@ export default {
           })
         },
         routeEnter(){
-            this.$router.push('/attendee');
+            this.$router.push('/attendance');
         },
         routeAttend(){
             this.$router.push('/attendance');

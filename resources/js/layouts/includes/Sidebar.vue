@@ -50,9 +50,9 @@ export default {
     data : () => ({
         logocard,
         items : [
-            {title : 'Attendee', icon: 'mdi mdi-account-group', route: '/attendee'},
-            {title : 'Staff', icon: 'mdi mdi-account-group', route: '/staff'},
             {title : 'Attendance', icon: 'mdi mdi-account-group', route: '/attendance'},
+            {title : 'Staff', icon: 'mdi mdi-account-group', route: '/staff'},
+            // {title : 'Attendance', icon: 'mdi mdi-account-group', route: '/attendance'},
          
         ]
     }),
