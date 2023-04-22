@@ -46,7 +46,7 @@ class UserController extends Controller
         $data = New User;
         $data->first_name = $request->first_name;
         $data->last_name = $request->last_name;
-        $data->email = $request->email;
+        $data->email = $request->username;
         $data->password = Hash::make($request->input('password'));
         $data->save();
         return $data;
