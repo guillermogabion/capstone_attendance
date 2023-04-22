@@ -50,7 +50,7 @@
                             :rules="ageRules"
                         ></v-text-field>
                         <v-text-field
-                            label="Address"
+                            label="Course"
                             outlined
                             v-model="payload.address"
                             :rules="addressRules"
