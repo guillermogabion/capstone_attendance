@@ -300,8 +300,11 @@ import axios from '../../plugins/axios'
       },
 
       deleteItemConfirm () {
-        this.desserts.splice(this.editedIndex, 1)
+        axios.delete('delete-staff-admin/' + this.editedItem.id).then(res => {
+          console.log(res.data)
+        })
         this.closeDelete()
+        this.getStaff()
       },
 
       close () {

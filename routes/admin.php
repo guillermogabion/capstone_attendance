@@ -49,6 +49,8 @@ Route::group(['prefix' => '/v1', 'middleware' => ['auth:admin-api']], function (
     Route::put('approve-staff/{id}', 'UserController@approveStaff');
     Route::post('edit-staff/{id}', 'UserController@editStaff');
     Route::post('add-staff-admin',  [UserController::class, 'addStaff']);
+    Route::delete('delete-staff-admin/{id}', 'UserController@deleteStaff');
+
 
 });
 
