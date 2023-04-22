@@ -28,12 +28,12 @@
               dense
               class="clicker"
             >
-              <v-list-item
+              <!-- <v-list-item
                 dense
                 class="text-capitalize"
               >
                 edit profile
-              </v-list-item>
+              </v-list-item> -->
               <v-list-item
                 dense
                 class="text-capitalize"
