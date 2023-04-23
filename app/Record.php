@@ -11,7 +11,8 @@ class Record extends Model
         'user_id',
         'participant_id',
         'event_name',
-        'student_id'
+        'student_id',
+        'code'
     ];
     protected $casts = [
         'email_verified_at' => 'datetime',

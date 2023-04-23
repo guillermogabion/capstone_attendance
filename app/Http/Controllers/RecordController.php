@@ -13,7 +13,7 @@ class RecordController extends Controller
     {
         $data = new Record();
         $data->event_name = $request->event_name;
-        $data->student_record_id = $request->code;
+        $data->student_record_id = preg_replace('/[^0-9]/', '', $request->code);
         $data->save();
         // $requestData = $request->all();
         // $data->create($requestData);
