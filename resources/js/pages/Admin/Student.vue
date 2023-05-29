@@ -127,7 +127,7 @@
                         </v-col>
                         </v-card>
                         </v-card>
-                        <v-snackbar
+                        <!-- <v-snackbar
                             v-model="snackbar"
                             :timeout="timeout"
                             >
@@ -143,7 +143,7 @@
                                 Close
                                 </v-btn>
                             </template>
-                        </v-snackbar>
+                        </v-snackbar> -->
                     </div>
          
         </v-sheet>

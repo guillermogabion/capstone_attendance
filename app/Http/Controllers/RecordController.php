@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Record;
 use App\Participant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class RecordController extends Controller
 {
@@ -18,6 +18,7 @@ class RecordController extends Controller
 
         if($data_filter) {
             return response()->json([
+                'status' => 'error',
                 'message' => "User is not Active"
             ]);
         }else{

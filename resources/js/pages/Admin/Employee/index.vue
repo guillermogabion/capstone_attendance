@@ -271,13 +271,19 @@ exportPDF() {
       }
       this.timer = setTimeout(() => {
         Axios.post('record', this.payload).then((response) => {
+           if (response.data.status === 'error') {
+            alert(response.data.message);
+            this.payload.code = ""
+        }else{
           this.payload.code = ""
           this.loading = false
           this.snackbar = true
-        }).catch((errors) => {
-          console.log(errors)
-        });
-      }, 800)
+        
+        } }).catch((errors) => {
+            console.log(errors)
+          });
+        }, 800)
+          
       
   },
    formatTime(dateTimeStr) {

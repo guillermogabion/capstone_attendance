@@ -78,7 +78,7 @@
                         </v-col>
                         </v-card>
                         </v-card>
-                        <v-snackbar
+                        <!-- <v-snackbar
                             v-model="snackbar"
                             :timeout="timeout"
                             >
@@ -94,7 +94,21 @@
                                 Close
                                 </v-btn>
                             </template>
-                        </v-snackbar>
+                        </v-snackbar> -->
+                        <v-dialog
+                        v-model = "dialog"
+                        width="20%"
+                        >
+                            <v-card
+
+                            >
+                                <h2> Student is not Active </h2>
+
+                                <v-btn
+                                    @click=" this.dialog = false "
+                                >Close</v-btn>
+                            </v-card>
+                        </v-dialog>
                     </div>
          
         </v-sheet>
@@ -133,6 +147,7 @@
             snackbar: false,
             text: 'New Data Added',
             timeout: 2000,
+            dialog : false
         }
        },
        methods : {
@@ -144,11 +159,13 @@
                 }
                 this.timer = setTimeout(() => {
                     axios.post('record', this.payload).then((response) => {
-                        this.payload.code = ""
-                        this.loading = false
-                        this.snackbar = true
+                        
+
+                        console.log(response, "I am console")
+                     
                     }).catch((errors) => {
-                        console.log(errors)
+                     
+                        console.error(errors);
                     });
                 }, 800)
                
