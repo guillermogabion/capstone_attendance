@@ -14,12 +14,12 @@ class Record extends Model
         'student_id',
         'code'
     ];
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'created_at'  => 'date:M d, Y',
-        'updated_at' => 'datetime:Y-m-d',
-        'upda' => 'datetime:Y-m-d'
-    ];
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    //     'created_at'  => 'date:M d, Y',
+    //     'updated_at' => 'datetime:Y-m-d',
+    //     'upda' => 'datetime:Y-m-d'
+    // ];
 
     public function participated()
     {

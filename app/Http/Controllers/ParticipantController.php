@@ -26,14 +26,16 @@ class ParticipantController extends Controller
         //     'message' => 'New Participant Added',
         //     'info' => $register
         // ], 201);
-        $data = Participant::where('student_id', $request->student_id)->exists();
+        $student = preg_replace('/[^0-9]/', '', $request->input('student_id'));
+
+        $data = Participant::where('student_id', $student)->exists();
         if ($data) {
             return response()->json([
                 'message' => "User has existing saved data"
             ]);
         } else {
 
-            $studentID = preg_replace('/[^0-9]/', '', $request->input('student_id'));
+            // $studentID = preg_replace('/[^0-9]/', '', $request->input('student_id'));
             // $input = $request->all();
             // $students = Participant::create($input);
             // return response()->json([
@@ -42,7 +44,7 @@ class ParticipantController extends Controller
             // ]);
 
             $participant = Participant::create([
-                'student_id' => $studentID,
+                'student_id' => $student,
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
                 'contact' => $request->input('contact'),
@@ -100,5 +102,20 @@ class ParticipantController extends Controller
             });
         }
         return $data->orderBy('last_name', 'asc')->paginate(10);
+    }
+
+    public function update_status($id)
+    {
+        $data = Participant::findOrFail($id);
+
+    if ($data->is_exist == 1) {
+        $data->update(['is_exist' => 0]);
+        return "Student Status OFF";
+    } else {
+        $data->update(['is_exist' => 1]);
+        return "Student Status ON";
+    }
+
+    
     }
 }

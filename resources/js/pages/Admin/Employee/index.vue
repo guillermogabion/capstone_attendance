@@ -12,6 +12,15 @@
                 :search="search"
                 ref="table"
             >
+             <template v-slot:item.created_at_date="{ item }">
+              {{ formatDate(item.created_at) }}
+            </template>
+            <template v-slot:item.created_at="{ item }">
+              {{ formatTime(item.created_at) }}
+            </template>
+            <template v-slot:item.updated_at="{ item }">
+              {{ item.updated_at === item.created_at ? ' ' : formatTime(item.updated_at) }}
+            </template>
                 <template v-slot:top>
                 <v-toolbar
                     flat
@@ -160,16 +169,19 @@
    data: () => ({
      dialog: false,
      dialogDelete: false,
+     attendance: [],
      headers: [
 
        { text: 'Student ID', align: 'start', sortable: false, value: 'student_record_id',},
        { text: 'Student Name', align: 'start', sortable: false, value: 'student.fullname',},
        { text: 'Event Name', align: 'start', sortable: false, value: 'event_name'},
-       { text: 'Date', align: 'start', sortable: false, value: 'created_at'},
+       { text: 'Date', align: 'start', sortable: false, value: 'created_at_date'},
+       { text: 'Log In', align: 'start', sortable: false, value: 'created_at'},
+       { text: 'Log Out', align: 'start', sortable: false, value: 'updated_at'},
     
      ],
      loading: false,
-     attendance: [],
+     
       search : '',
       pageCount: 0,
       itemsPerPage:null,
@@ -251,23 +263,53 @@ exportPDF() {
       this.$router.push('/attendance')
     },
 
-      saveScan(){
-                this.loadding = true
-                if (this.timer) {
-                    clearTimeout(this.timer);
-                    this.timer = null
-                }
-                this.timer = setTimeout(() => {
-                    Axios.post('record', this.payload).then((response) => {
-                        this.payload.code = ""
-                        this.loading = false
-                        this.snackbar = true
-                    }).catch((errors) => {
-                        console.log(errors)
-                    });
-                }, 800)
-               
-            }
+  saveScan(){
+      this.loadding = true
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null
+      }
+      this.timer = setTimeout(() => {
+        Axios.post('record', this.payload).then((response) => {
+          this.payload.code = ""
+          this.loading = false
+          this.snackbar = true
+        }).catch((errors) => {
+          console.log(errors)
+        });
+      }, 800)
+      
+  },
+   formatTime(dateTimeStr) {
+       if (!dateTimeStr) {
+        return '';
+      }
+      
+      const dateTime = new Date(dateTimeStr);
+      if (isNaN(dateTime.getTime())) {
+        return dateTimeStr;
+      }
+      
+      const hours = dateTime.getHours().toString().padStart(2, '0');
+      const minutes = dateTime.getMinutes().toString().padStart(2, '0');
+      const seconds = dateTime.getSeconds().toString().padStart(2, '0');
+      return `${hours}:${minutes}:${seconds}`;
+    },
+    formatDate(dateTimeStr) {
+      if (!dateTimeStr) {
+        return '';
+      }
+      
+      const dateTime = new Date(dateTimeStr);
+      if (isNaN(dateTime.getTime())) {
+        return dateTimeStr;
+      }
+      
+      const year = dateTime.getFullYear().toString();
+      const month = (dateTime.getMonth() + 1).toString().padStart(2, '0');
+      const date = dateTime.getDate().toString().padStart(2, '0');
+      return `${year}-${month}-${date}`;
+    },
 
     
 },

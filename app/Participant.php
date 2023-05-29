@@ -13,7 +13,8 @@ class Participant extends Model
         'address',
         'student_id',
         'age',
-        'contact'
+        'contact',
+        'is_exist'
     ];
 
     protected $appends = [

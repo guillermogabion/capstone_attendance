@@ -52,6 +52,7 @@ export default {
         items : [
             {title : 'Attendance', icon: 'mdi mdi-account-group', route: '/attendance'},
             {title : 'Staff', icon: 'mdi mdi-account-group', route: '/staff'},
+            {title : 'Students', icon: 'mdi mdi-account-group', route: '/students'},
             // {title : 'Attendance', icon: 'mdi mdi-account-group', route: '/attendance'},
          
         ]

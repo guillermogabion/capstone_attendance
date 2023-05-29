@@ -21,6 +21,7 @@ import Attendance from '../pages/Admin/Attendance.vue'
 
 import AllItems from '../pages/Items/index.vue'
 import Staff from '../pages/Admin/Staff.vue'
+import Students from '../pages/Admin/Student.vue'
 
 
 // landing 
@@ -67,6 +68,15 @@ export default [{
             path: '/staff',
             name: 'staff',
             component: Staff,
+            meta: { authOnly: true },
+            children : [
+               
+            ]
+        },
+        {
+            path: '/students',
+            name: 'students',
+            component: Students,
             meta: { authOnly: true },
             children : [
                

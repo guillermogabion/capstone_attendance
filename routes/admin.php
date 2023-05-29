@@ -44,6 +44,8 @@ Route::group(['prefix' => '/v1', 'middleware' => ['auth:admin-api']], function (
     Route::post('items-search', [ItemController::class, 'search']);
 
     Route::get('get', [RecordController::class, 'get']);
+    Route::get('get_student', [ParticipantController::class, 'index']);
+
 
     Route::get('get-all-staff', 'UserController@getAll');
     Route::put('approve-staff/{id}', 'UserController@approveStaff');
@@ -51,6 +53,7 @@ Route::group(['prefix' => '/v1', 'middleware' => ['auth:admin-api']], function (
     Route::post('add-staff-admin',  [UserController::class, 'addStaff']);
     Route::delete('delete-staff-admin/{id}', 'UserController@deleteStaff');
 
+    Route::put('update_status/{id}', [ParticipantController::class, 'update_status']);
 
 });
 

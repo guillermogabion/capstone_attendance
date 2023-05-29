@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Record;
+use App\Participant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,18 +12,33 @@ class RecordController extends Controller
     //
     public function store(Request $request)
     {
-        $data = new Record();
-        $data->event_name = $request->event_name;
-        $data->student_record_id = preg_replace('/[^0-9]/', '', $request->code);
-        $data->save();
-        // $requestData = $request->all();
-        // $data->create($requestData);
+        $student = preg_replace('/[^0-9]/', '', $request->input('code'));
+        $data_filter = Participant::where('student_id', $student)->where('is_exist', 0)->first();
+        $data = Record::where('student_record_id', preg_replace('/[^0-9]/', '', $request->code))->where('event_name', $request->event_name)->exists();
 
-        // return response()->json([
-        //     'message' => 'Recorded',
-        //     'data' => $data
-        // ], 201);
+        if($data_filter) {
+            return response()->json([
+                'message' => "User is not Active"
+            ]);
+        }else{
+            if($data) {
+                return response()->json([
+                    'message' => "User has existing saved data"
+                ]);
+            }else {
+                $new = new Record();
+                $new->event_name = $request->event_name;
+                $new->student_record_id = $student;
+                $new->save();
+    
+                return $new;
+            }
+        }
+
+
+        
     }
+       
 
     public function destroy($id)
     {
@@ -49,7 +65,7 @@ class RecordController extends Controller
        $data = Record::with(['student' => function ($query) {
         $query->select('student_id', 'first_name', 'last_name');
     }])
-    ->select('event_name', 'created_at', 'student_record_id')
+    ->select('event_name', 'created_at', 'updated_at', 'student_record_id')
     ->get();
 return $data;
 

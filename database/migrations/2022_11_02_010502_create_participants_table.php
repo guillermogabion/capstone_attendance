@@ -21,6 +21,7 @@ class CreateParticipantsTable extends Migration
             $table->string('contact');
             $table->string('age');
             $table->string('address');
+            $table->boolean('isactive')->default(1);
             $table->timestamps();
         });
     }
