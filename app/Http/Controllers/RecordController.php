@@ -5,6 +5,7 @@ use App\Record;
 use App\Participant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 
 class RecordController extends Controller
@@ -23,8 +24,11 @@ class RecordController extends Controller
             ]);
         }else{
             if($data) {
+                
+                $logout = Record::where('student_record_id', preg_replace('/[^0-9]/', '', $request->code))->where('event_name', $request->event_name)->first();
+                $logout->update([ 'updated_at' => Carbon::now()]);
                 return response()->json([
-                    'message' => "User has existing saved data"
+                    'message' => "User has existing saved data, Logged Out"
                 ]);
             }else {
                 $new = new Record();

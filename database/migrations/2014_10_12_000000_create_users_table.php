@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('contact')->nullable();
             $table->string('user_type')->default(0);
             $table->boolean('approve')->default(false);
-            $table->string('email')->nullable()->unique();
+            $table->string('email');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
